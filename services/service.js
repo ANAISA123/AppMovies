@@ -9,33 +9,48 @@ export const getPopularMovies = async () => {
     return resp.data.results;
 };
 
-//Obtener Categoría próximas en películas / GET
-export const getUpcomingMovies = async () => {
-    const resp = await axios.get(`${apiUrl}/movie/upcoming?${apiKey}`);
+//Obtener Categoría películas de comedia / GET
+export const getComedyMovies = async () => {
+    const resp = await axios.get(`${apiUrl}/movie/Comedy?${apiKey}`);
     return resp.data.results;
 };
   
-//Obtener Categoría Programas Populares de TV / GET
-export const getPopularTv = async () => {
-const resp = await axios.get(`${apiUrl}/tv/popular?${apiKey}`);
+//Obtener Categoría películas de Misterio / GET
+export const getMisteryMovies = async () => {
+const resp = await axios.get(`${apiUrl}/movie/Mystery?${apiKey}`);
 return resp.data.results;
 };
 
-//Obtener Categoría Familiar en películas / GET
-export const getFamilyMovies = async () => {
+//Obtener Categoría películas de Fantasía / GET
+export const getFantasyMovies = async () => {
+    const resp = await axios.get(`${apiUrl}/movie/Fantasy?${apiKey}`);
+    return resp.data.results;
+    };
+
+//Obtener Categoría películas de Acción  / GET
+export const getActionMovies = async () => {
 const resp = await axios.get(
-    `${apiUrl}/discover/movie?${apiKey}&with_genres=10751`,
+    `${apiUrl}/movie/Action?${apiKey}`,
 );
 return resp.data.results;
 };
 
-//Obtener Categoría Documentales en películas / GET
-export const getDocumentaryMovies = async () => {
+//Obtener Categoría películas de Romance / GET
+export const getRomanceMovies = async () => {
 const resp = await axios.get(
-    `${apiUrl}/discover/movie?${apiKey}&with_genres=99`,
+    `${apiUrl}/movie/Romance?${apiKey}&with_genres=10749`,
 );
 return resp.data.results;
 };
+
+//Obtener Categoría películas de Terror / GET
+export const getHorrorMovies = async () => {
+    const resp = await axios.get(
+        `${apiUrl}/movie/Horror?${apiKey}&with_genres=27`,
+    );
+    return resp.data.results;
+    };
+
 
 //otros
 //obtener película por id
@@ -52,6 +67,6 @@ const resp = await axios.get(
 return resp.data.results;
 };
 
-
+ 
 
 
