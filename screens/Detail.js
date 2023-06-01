@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
@@ -13,11 +12,14 @@ import {
 } from 'react-native';
 import PlayButton from '../components/PlayButton';
 import StarRating from 'react-native-star-rating';
-import {getMovie} from '../services/service';
+import { getMovie } from '../services/service';
 import dateFormat from 'dateformat';
+import VideoD from '../components/VideoD';
+import VideoPlayer from 'react-native-video-controls';
+import Video from 'react-native-video';
+import StopButton from '../components/StopButton';
 
 
-const placeholderImage = require('../assets/images/placeholder.png');
 const height = Dimensions.get('screen').height;
 
 const Detail = ({route, navigation}) => {
@@ -45,7 +47,7 @@ const Detail = ({route, navigation}) => {
   return (
     <React.Fragment>
       {loaded && (
-        <View>
+        <View style={styles.container}>
           <ScrollView>
             <Image
               resizeMode="cover"
@@ -60,7 +62,7 @@ const Detail = ({route, navigation}) => {
                   : placeholderImage
               }
             />
-            <View style={styles.container}>
+            <View style={styles.content}>
               <View style={styles.playButton}>
                 <PlayButton handlePress={videoShown} />
               </View>
@@ -79,9 +81,9 @@ const Detail = ({route, navigation}) => {
               <StarRating
                 disabled={true}
                 maxStars={5}
-                starSize={30}
+                starSize={40}
                 rating={movieDetail.vote_average / 2}
-                fullStarColor={'gold'}
+                fullStarColor={'green'}
               />
               <Text style={styles.overview}>{movieDetail.overview}</Text>
 
@@ -101,7 +103,7 @@ const Detail = ({route, navigation}) => {
              {/* <VideoPlayer
              source={{uri: 'https://vjs.zencdn.net/v/oceans.mp4'}}/> */}
              <Pressable>
-              <Text>Esto debería ser un modal con el reproductor si hubiese acceso al video</Text>
+              <Text></Text>
               <StopButton handlePress={videoStop} />
              </Pressable>
               
@@ -117,17 +119,29 @@ const Detail = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#5e5e5e',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 20,
   },
   image: {
     height: height / 2.5,
   },
   movieTitle: {
-    fontSize: 24,
+    fontSize: 34,
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
+    fontFamily: 'Cochin',
+    color: 'white',
+    textShadowColor: '#95db7d', 
+    textShadowOffset: { width: 2, height: 2 }, 
+    textShadowRadius: 5, 
+    textAlign:'center',
+    marginHorizontal: 10,
   },
   genresContainer: {
     flexDirection: 'row',
@@ -138,12 +152,21 @@ const styles = StyleSheet.create({
   genre: {
     marginRight: 10,
     fontWeight: 'bold',
+    fontFamily: 'Cochin',
+    color: 'white',
   },
   overview: {
     padding: 15,
+    fontFamily: 'Cochin',
+    textAlign: 'justify',
+    color: 'white',
+    marginVertical: 10, 
+    marginHorizontal: 20, 
   },
   release: {
+    fontFamily: 'Cochin',
     fontWeight: 'bold',
+    color: 'white',
   },
   playButton: {
     position: 'absolute',
@@ -154,6 +177,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#5e5e5e',
   },
 });
 

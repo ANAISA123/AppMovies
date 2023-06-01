@@ -1,208 +1,189 @@
-import React,{useEffect, useState} from "react";
-import {
-    ActivityIndicator,
-    View,
-    StyleSheet,
-    Dimensions,
-    ScrollView,
-} from 'react-native';
-import {
-  getPopularMovies, 
-  getComedyMovies, 
-  getMisteryMovies,
-  getFantasyMovies, 
-  getActionMovies,
-  getRomanceMovies, 
-  getHorrorMovies, } from '../services/service';
-
-import { SliderBox } from "react-native-image-slider-box";
-import react from "react";
+import React, { useEffect, useState } from "react";
+import { SliderBox } from 'react-native-image-slider-box';
 import List from '../components/List';
 import Error from '../components/Error';
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 
-const dimentions = Dimensions.get('screen')
+import {
+  getAdventureMovies,
+  getUpcomingMovies,
+  getMusicMovies,
+  getDramaMovies,
+  getHorrorMovies,
+  getActionMovies,
+  getComedyMovies,
+} from "../services/service";
 
-const Home = ({navigation}) => {
-  {/*Hooks para los estados de las categorías  */}
+const dimensions = Dimensions.get('screen');
+
+const Home = ({ navigation }) => {
   const [moviesImages, setMoviesImages] = useState();
-  const [popularMovies, setPopularMovies] = useState();
-  const [comedyMovies, setComedyMovies] = useState();
-  const [misteryMovies, setMisteryMovies] = useState();
-  const [fantasyMovies, setFantasyMovies] = useState();
-  const [actionMovies, setActionMovies] = useState();
-  const [romanceMovies, setRomanceMovies] = useState();
+  const [adventureMovies, setAdventureMovies] = useState();
+  const [musicMovies, setMusicMovies] = useState();
+  const [dramaMovies, setDramaMovies] = useState();
   const [horrorMovies, setHorrorMovies] = useState();
+  const [actionMovies, setActionMovies] = useState();
+  const [comedyMovies, setComedyMovies] = useState();
 
-  {/*Hooks para el manejo de los errores y carga  */}
-  const [error, setError] = useState();
-  const [loaded, setLoaded] = useState();
+  const [error, setError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const getData = () => {
-    return Promise.all ([
-      getPopularMovies(),
-      getComedyMovies(), 
-      getMisteryMovies(),
-      getFantasyMovies(), 
+    return Promise.all([
+      getAdventureMovies(),
+      getUpcomingMovies(),
+      getMusicMovies(),
+      getDramaMovies(),
+      getHorrorMovies(),
       getActionMovies(),
-      getRomanceMovies(), 
-      getHorrorMovies(), 
-    ])
-  }
+      getComedyMovies(),
+    ]);
+  };
 
   useEffect(() => {
     getData()
-    .then(
-        ([
-          PopularMovies,
-          ComedyMovies,
-          MisteryMovies,
-          FantasyMovies,
-          ActionMovies,
-          RomanceMovies,
-          HorrorMovies,
-        ]) => {
-            const moviesImagesArray = []
-            PopularMovies.forEach(movie => {
-              moviesImagesArray.push(
-                  'https://image.tmdb.org/t/p/w500' + movie.poster_path,
-              )
-            })
-            {/*Modificando los estados */}
-            setMoviesImages(moviesImagesArray);
-            setPopularMovies(popularMovies);
-            setComedyMovies(comedyMovies);
-            setMisteryMovies(misteryMovies);
-            setFantasyMovies(fantasyMovies);
-            setActionMovies(actionMovies);
-            setRomanceMovies(romanceMovies);
-            setHorrorMovies(horrorMovies);
-        },
-    )
-        .catch(() => {
-          setError(true)
-        })
+      .then(([
+        upcomingMoviesData,
+        adventureMoviesData,
+        musicMoviesData,
+        dramaMoviesData,
+        horrorMoviesData,
+        actionMoviesData,
+        comedyMoviesData,
+      ]) => {
+        const moviesImagesArray = [];
+        upcomingMoviesData.forEach(movie => {
+          moviesImagesArray.push(
+            'https://image.tmdb.org/t/p/w500' + movie.poster_path,
+          );
+        });
 
-        .finally(() => {
-          setLoaded(true)
-        })
+        setMoviesImages(moviesImagesArray);
+        setAdventureMovies(adventureMoviesData);
+        setMusicMovies(musicMoviesData);
+        setDramaMovies(dramaMoviesData);
+        setHorrorMovies(horrorMoviesData);
+        setActionMovies(actionMoviesData);
+        setComedyMovies(comedyMoviesData);
+      })
+      .catch(() => {
+        setError(true);
+      })
+      .finally(() => {
+        setLoaded(true);
+      });
+  }, []);
 
-  },[])
-
-  return(
-    <react.Fragment>
+  return (
+    <React.Fragment>
       {/* Upcoming Movies */}
       {loaded && !error && (
-        <ScrollView>
+        <ScrollView style={styles.container}>
           {moviesImages && (
-            <View style = {styles.sliderContainer}>
-                <SliderBox
-                   images={moviesImages}
-                   dotStyle={styles.sliderStyle}
-                   sliderBoxHeight={dimentions.height / 1.5}
-                   autoplay={true}
-                   circleLoop={true}
-                />
-            </View>  
+            <View style={styles.sliderContainer}>
+              <SliderBox
+                images={moviesImages}
+                dotStyle={styles.sliderStyle}
+                sliderBoxHeight={dimensions.height / 1.5}
+                autoplay={true}
+                circleLoop={true}
+              />
+            </View>
           )}
-
           {/* Popular Movies */}
-          {popularMovies && (
+          {adventureMovies && (
             <View style={styles.carousel}>
               <List
                 navigation={navigation}
-                title={'Películas más populares entre el público'}
-                content={popularMovies}
+                title={'Aventura'}
+                content={adventureMovies}
               />
             </View>
           )}
-          {/* Comedy Movies*/}
-          {comedyMovies && (
+          {/* Romance Movies */}
+          {musicMovies && (
             <View style={styles.carousel}>
               <List
                 navigation={navigation}
-                title={'Películas Cómicas'}
-                content={comedyMovies}
+                title={'Musicales'}
+                content={musicMovies}
               />
             </View>
           )}
-          {/* Mistery Movies */}
-          {misteryMovies && (
+          {/* Drama Movies */}
+          {dramaMovies && (
             <View style={styles.carousel}>
               <List
                 navigation={navigation}
-                title={'Películas de Misterio'}
-                content={misteryMovies}
+                title={'Dramas'}
+                content={dramaMovies}
               />
             </View>
           )}
-          {/* Fantasy Movies */}
-          {fantasyMovies && (
+          {/* Horror Movies */}
+          {horrorMovies && (
             <View style={styles.carousel}>
               <List
                 navigation={navigation}
-                title={'Películas de fantasía'}
-                content={fantasyMovies}
-              />
-            </View>
-          )}
-          
-           {/* Action Movies */}
-           {actionMovies && (
-            <View style={styles.carousel}>
-              <List
-                navigation={navigation}
-                title={'Peliculas de Acción'}
-                content={actionMovies}
-              />
-            </View>
-          )}
-          
-           {/* Romance Movies */}
-           {romanceMovies && (
-            <View style={styles.carousel}>
-              <List
-                navigation={navigation}
-                title={'Películas Románticas'}
-                content={romanceMovies}
-              />
-            </View>
-          )}
-          
-           {/* Horror Movies */}
-           {horrorMovies && (
-            <View style={styles.carousel}>
-              <List
-                navigation={navigation}
-                title={'Películas de Terror'}
+                title={'Terror'}
                 content={horrorMovies}
               />
             </View>
           )}
-
+          {/* Action Movies */}
+          {actionMovies && (
+            <View style={styles.carousel}>
+              <List
+                navigation={navigation}
+                title={'Acción'}
+                content={actionMovies}
+              />
+            </View>
+          )}
+          {/* Comedy Movies */}
+          {comedyMovies && (
+            <View style={styles.carousel}>
+              <List
+                navigation={navigation}
+                title={'Comedias'}
+                content={comedyMovies}
+              />
+            </View>
+          )}
         </ScrollView>
       )}
       {!loaded && <ActivityIndicator size="large" />}
       {error && <Error />}
-    </react.Fragment>
-  )
-
-}
-
+    </React.Fragment>
+  );
+};
 
 const styles = StyleSheet.create({
-    sliderContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    sliderStyle: {
-      height: 0,
-    },
-    carousel: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#5e5e5e',
+  },
+  sliderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#5e5e5e',
+  },
+  sliderStyle: {
+    height: 0,
+  },
+  carousel: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#5e5e5e',
+  },
+});
 
-  export default Home
+export default Home;

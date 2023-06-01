@@ -1,72 +1,69 @@
-import axios from "axios";
+import axios from 'axios'
 
-const  apiUrl = 'https://api.themoviedb.org/3';
+const apiUrl = 'https://api.themoviedb.org/3';
 const apiKey = 'api_key=56230e57019033f59a9a8144ca7a520d';
 
-//Obtener categoría de películas populares /GET
-export const getPopularMovies = async () => {
-    const resp = await axios.get(`${apiUrl}/movie/popular?${apiKey}`);
+// Get Adventure Movies
+export const getAdventureMovies = async () => {
+    const resp = await axios.get(`${apiUrl}/discover/movie?${apiKey}&with_genres=12`);
     return resp.data.results;
 };
 
-//Obtener Categoría películas de comedia / GET
-export const getComedyMovies = async () => {
-    const resp = await axios.get(`${apiUrl}/movie/Comedy?${apiKey}`);
+// Get Upcoming Movies
+export const getUpcomingMovies = async () => {
+    const resp = await axios.get(`${apiUrl}/movie/upcoming?${apiKey}`);
     return resp.data.results;
-};
+  };
   
-//Obtener Categoría películas de Misterio / GET
-export const getMisteryMovies = async () => {
-const resp = await axios.get(`${apiUrl}/movie/Mystery?${apiKey}`);
-return resp.data.results;
-};
-
-//Obtener Categoría películas de Fantasía / GET
-export const getFantasyMovies = async () => {
-    const resp = await axios.get(`${apiUrl}/movie/Fantasy?${apiKey}`);
+  // Get Music Movies
+  export const getMusicMovies = async () => {
+    const resp = await axios.get(`${apiUrl}/discover/movie?${apiKey}&with_genres=10402`);
     return resp.data.results;
-    };
-
-//Obtener Categoría películas de Acción  / GET
-export const getActionMovies = async () => {
-const resp = await axios.get(
-    `${apiUrl}/movie/Action?${apiKey}`,
-);
-return resp.data.results;
-};
-
-//Obtener Categoría películas de Romance / GET
-export const getRomanceMovies = async () => {
-const resp = await axios.get(
-    `${apiUrl}/movie/Romance?${apiKey}&with_genres=10749`,
-);
-return resp.data.results;
-};
-
-//Obtener Categoría películas de Terror / GET
-export const getHorrorMovies = async () => {
+  };
+   // Get Drama Movies
+   export const getDramaMovies = async () => {
     const resp = await axios.get(
-        `${apiUrl}/movie/Horror?${apiKey}&with_genres=27`,
+      `${apiUrl}/discover/movie?${apiKey}&with_genres=18`,
     );
     return resp.data.results;
-    };
+  };
+  
+  // Get Horror Movies
+  export const getHorrorMovies = async () => {
+    const resp = await axios.get(
+      `${apiUrl}/discover/movie?${apiKey}&with_genres=27`,
+    );
+    return resp.data.results;
+  };
+  
+  // Get Action Movies
+  export const getActionMovies = async () => {
+    const resp = await axios.get(
+      `${apiUrl}/discover/movie?${apiKey}&with_genres=28`,
+    );
+    return resp.data.results;
+  };
 
+   // Get Comedy Movies
+   export const getComedyMovies = async () => {
+    const resp = await axios.get(
+      `${apiUrl}/discover/movie?${apiKey}&with_genres=35`,
+    );
+    return resp.data.results;
+  };
 
-//otros
-//obtener película por id
-export const getMovie = async id => {
+  //otros
+  //obtener pelicula por id
+
+  export const getMovie = async id => {
     const resp = await axios.get(`${apiUrl}/movie/${id}?${apiKey}`);
     return resp.data;
-};
+  };
   
-//Buscar contenidos por medio de una letra o palabra
-export const searchMovieTv = async (query, type) => {
-const resp = await axios.get(
-    `${apiUrl}/search/${type}?${apiKey}&query=${query}`,
-);
-return resp.data.results;
-};
-
- 
-
-
+  // Search for Movie or TV by Keyword
+  export const searchMovieTv = async (query, type) => {
+    const resp = await axios.get(
+      `${apiUrl}/search/${type}?${apiKey}&query=${query}`,
+    );
+    return resp.data.results;
+  };
